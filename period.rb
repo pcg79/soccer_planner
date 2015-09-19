@@ -16,4 +16,8 @@ class Period
   def each(&block)
     @lineup.each(&block)
   end
+
+  def <=>(other)
+    number <=> other.number
+  end
 end
