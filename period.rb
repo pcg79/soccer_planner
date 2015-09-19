@@ -1,4 +1,6 @@
 class Period
+  include Enumerable
+
   attr_accessor :number, :lineup
 
   def initialize(number)
@@ -9,5 +11,9 @@ class Period
   def add_player(player)
     player.increment_played
     @lineup << player
+  end
+
+  def each(&block)
+    @lineup.each(&block)
   end
 end
