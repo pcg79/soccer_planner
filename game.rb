@@ -47,7 +47,8 @@ class Game
     success = true
 
     periods.each do |period|
-      players = period.lineup + [period.defender]
+      players = period.all_players
+
       player_names = players.map { |player| player.name }
 
       if player_names.uniq.count < 5
