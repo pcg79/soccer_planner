@@ -129,8 +129,7 @@ class Game
   end
 
   def get_random_player(period)
-    current_players = [lineup.defender] + lineup.players
-    get_random_least_played(players)
+    get_random_least_played(players - period.all_players)
   end
 
   def get_random_least_played(player_array)
