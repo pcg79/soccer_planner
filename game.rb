@@ -90,10 +90,28 @@ class Game
     true
   end
 
+  def print_lineups
+    lineups.sort.each do |period|
+      puts "Period #{period.number}:"
+
+      period.lineup.each do |player|
+        print "  #{player.name}"
+        if player.defender?
+          puts " - Defense"
+        else
+          puts
+        end
+      end
+      puts
+    end
+    puts
+  end
+
   def check_everything
     check_defenders
     check_player_count_per_period
-    print_players_per_period
+    print_players_per_periods_played
+    print_lineups
   end
 
   private
