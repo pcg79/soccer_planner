@@ -36,10 +36,18 @@ class Game
 
 
   def check_defenders
+    success = true
     periods.each do |period|
       if !period.defender
         puts "ERROR:  period #{period.number} does not have a defender."
+        success = false
       end
+    end
+
+    if success
+      puts "Defenders are good.  Nice job."
+    else
+      puts "See above errors"
     end
   end
 
