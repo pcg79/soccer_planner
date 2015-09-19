@@ -80,8 +80,16 @@ class Game
     end
   end
 
-  def print_players_per_period
-    {}.tap { |hash| lineups.values.flatten.each { |player| hash[player.name] ||= 0; hash[player.name] += 1 } }
+  def print_players_per_periods_played
+    players.group_by(&:periods_played).each_pair do |periods, players|
+      puts "#{periods}"
+
+      players.each do |player|
+        puts "  #{player.name}"
+      end
+      puts
+    end
+    true
   end
 
   def check_everything
