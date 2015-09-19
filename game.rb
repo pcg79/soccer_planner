@@ -22,6 +22,7 @@ class Game
 
   def generate_periods
     init_periods
+    init_played_counts
 
     periods.each do |period|
       period.add_defender get_defender
@@ -33,7 +34,6 @@ class Game
 
     print_periods
   end
-
 
   def check_defenders
     success = true
@@ -120,6 +120,10 @@ class Game
         array << Period.new(i+1)
       end
     end
+  end
+
+  def init_played_counts
+    players.each &:reset_played
   end
 
   # Group the defenders by periods_played.  Then sort them by periods_played.  Then get the first group (lowest played)
