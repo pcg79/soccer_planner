@@ -13,4 +13,8 @@ class Player
   def increment_played
     @periods_played += 1
   end
+
+  def reset_played
+    @periods_played = 0
+  end
 end
