@@ -23,11 +23,11 @@ class Game
   def generate_periods
     init_periods
 
-    8.times do |i|
-      periods[i].add_defender get_defender
+    periods.each do |period|
+      period.add_defender get_defender
 
       4.times do
-        periods[i].add_player get_random_player(period)
+        period.add_player get_random_player(period)
       end
     end
 
