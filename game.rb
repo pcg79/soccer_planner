@@ -36,16 +36,15 @@ class Game
   def check_defenders
     success = true
 
-    lineups.keys.each do |key|
-      players = lineups[key]
-
+    lineups.each do |period|
+      players = period.lineup
       defenders = players.select { |player| player.defense? }
 
       if defenders.count > 1
-        puts "ERROR:  period #{key} has more than one defender.  #{defenders.map { |p| p.name }}"
+        puts "ERROR:  period #{period.number} has more than one defender.  #{defenders.map { |p| p.name }}"
         success = false
       elsif defenders.count < 1
-        puts "ERROR:  period #{key} does not have a defender."
+        puts "ERROR:  period #{period.number} does not have a defender."
         success = false
       end
     end
@@ -60,15 +59,14 @@ class Game
   def check_player_count_per_period
     success = true
 
-    lineups.keys.each do |key|
-      players = lineups[key]
-
+    lineups.each do |period|
+      players = period.lineup
       player_names = players.map { |player| player.name }
       if player_names.uniq.count < 5
-        puts "ERROR:  period #{key} does not have 5 players.  #{player_names}"
+        puts "ERROR:  period #{period.number} does not have 5 players.  #{player_names}"
         success = false
       elsif player_names.uniq.count > 5
-        puts "ERROR:  period #{key} has too many players.  #{player_names}"
+        puts "ERROR:  period #{period.number} has too many players.  #{player_names}"
         success = false
       end
     end
@@ -101,9 +99,9 @@ class Game
   private
 
   def init_lineups
-    @lineups = {}.tap do |hash|
+    @lineups = [].tap do |array|
       8.times do |i|
-        hash[i] = Period.new(i+1)
+        array << Period.new(i+1)
       end
     end
   end
