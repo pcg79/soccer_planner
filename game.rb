@@ -1,8 +1,14 @@
 class Game
-  attr_accessor :lineups
+  attr_accessor :lineups, :players, :defenders
 
   def initialize(lineups)
     @lineups = lineups
+  end
+
+  def initialize(csv_file)
+    CSV.foreach(csv_file) do |row|
+      players << Player.new(row[0], row[1] || false)
+    end
   end
 
   def check_defenders
