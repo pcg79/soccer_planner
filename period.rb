@@ -8,6 +8,10 @@ class Period
     @lineup = []
   end
 
+  def all_players
+    (lineup + [defender]).compact
+  end
+
   def add_player(player)
     player.increment_played
     @lineup << player
