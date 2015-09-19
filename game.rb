@@ -76,6 +76,10 @@ class Game
   end
 
   def print_players_per_periods_played
+    puts
+    puts "* NUMBER OF PERIODS PLAYED"
+    puts
+
     players.group_by(&:periods_played).each_pair do |periods, players|
       puts "#{periods}"
 
@@ -88,6 +92,9 @@ class Game
   end
 
   def print_periods
+    puts "* LINEUPS"
+    puts
+
     periods.sort.each do |period|
       puts "Period #{period.number}:"
 
