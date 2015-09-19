@@ -1,5 +1,5 @@
 class Game
-  attr_accessor :lineups, :players, :defenders
+  attr_accessor :periods, :players, :defenders
 
   def initialize(csv_file)
     require 'csv'
@@ -7,7 +7,7 @@ class Game
     @defenders = []
     @players   = []
 
-    init_lineups
+    init_periods
 
     CSV.foreach(csv_file) do |row|
       player = Player.new(row[0], row[1] || false)
@@ -20,23 +20,23 @@ class Game
     end
   end
 
-  def generate_lineups
-    init_lineups
+  def generate_periods
+    init_periods
 
-    8.times do |period|
-      lineups[period].add_defender get_defender
+    8.times do |i|
+      periods[i].add_defender get_defender
 
       4.times do
-        lineups[period].add_player get_random_player
+        periods[i].add_player get_random_player(period)
       end
     end
 
-    print_lineups
+    print_periods
   end
 
 
   def check_defenders
-    lineups.each do |period|
+    periods.each do |period|
       if !period.defender
         puts "ERROR:  period #{period.number} does not have a defender."
       end
@@ -46,7 +46,7 @@ class Game
   def check_player_count_per_period
     success = true
 
-    lineups.each do |period|
+    periods.each do |period|
       players = period.lineup + [period.defender]
       player_names = players.map { |player| player.name }
 
@@ -78,8 +78,8 @@ class Game
     true
   end
 
-  def print_lineups
-    lineups.sort.each do |period|
+  def print_periods
+    periods.sort.each do |period|
       puts "Period #{period.number}:"
 
       if period.defender
@@ -100,13 +100,13 @@ class Game
     check_defenders
     check_player_count_per_period
     print_players_per_periods_played
-    print_lineups
+    print_periods
   end
 
   private
 
-  def init_lineups
-    @lineups = [].tap do |array|
+  def init_periods
+    @periods = [].tap do |array|
       8.times do |i|
         array << Period.new(i+1)
       end
@@ -119,7 +119,8 @@ class Game
     get_random_least_played(defenders)
   end
 
-  def get_random_player
+  def get_random_player(period)
+    current_players = [lineup.defender] + lineup.players
     get_random_least_played(players)
   end
 
