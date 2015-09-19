@@ -30,6 +30,8 @@ class Game
         lineups[period].add_player get_random_player
       end
     end
+
+    print_lineups
   end
 
 
