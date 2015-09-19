@@ -21,10 +21,10 @@ class Game
   end
 
   def generate_lineups
-    8.times do |period|
-      defender = get_defender
+    init_lineups
 
-      lineups[period].add_player defender
+    8.times do |period|
+      lineups[period].add_defender get_defender
 
       4.times do
         lineups[period].add_player get_random_player
@@ -34,25 +34,10 @@ class Game
 
 
   def check_defenders
-    success = true
-
     lineups.each do |period|
-      players = period.lineup
-      defenders = players.select { |player| player.defense? }
-
-      if defenders.count > 1
-        puts "ERROR:  period #{period.number} has more than one defender.  #{defenders.map { |p| p.name }}"
-        success = false
-      elsif defenders.count < 1
+      if !period.defender
         puts "ERROR:  period #{period.number} does not have a defender."
-        success = false
       end
-    end
-
-    if success
-      puts "Defenders are good.  Nice job."
-    else
-      puts "See above errors"
     end
   end
 
@@ -60,8 +45,9 @@ class Game
     success = true
 
     lineups.each do |period|
-      players = period.lineup
+      players = period.lineup + [period.defender]
       player_names = players.map { |player| player.name }
+
       if player_names.uniq.count < 5
         puts "ERROR:  period #{period.number} does not have 5 players.  #{player_names}"
         success = false
@@ -94,13 +80,14 @@ class Game
     lineups.sort.each do |period|
       puts "Period #{period.number}:"
 
+      if period.defender
+        puts "  #{period.defender.name} - Defense"
+      else
+        puts "  No defender!"
+      end
+
       period.lineup.each do |player|
-        print "  #{player.name}"
-        if player.defender?
-          puts " - Defense"
-        else
-          puts
-        end
+        puts "  #{player.name}"
       end
       puts
     end
